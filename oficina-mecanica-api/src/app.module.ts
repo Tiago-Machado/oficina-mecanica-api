@@ -4,7 +4,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { getTypeOrmConfig } from './infrastructure/database/typeorm.config';
 import { HealthController } from './presentation/controllers/health.controller';
 import { ClienteModule } from './presentation/modules/cliente.module';
-import { VeiculoController } from './presentation/controllers/veiculo.controller';
+import { VeiculoModule } from './presentation/modules/veiculo.module';
 import { ServicoController } from './presentation/controllers/servico.controller';
 import { PecaController } from './presentation/controllers/peca.controller';
 import { OrdemServicoController } from './presentation/controllers/ordem-servico.controller';
@@ -20,10 +20,10 @@ import { OrdemServicoController } from './presentation/controllers/ordem-servico
         getTypeOrmConfig(configService),
     }),
     ClienteModule,
+    VeiculoModule,
   ],
   controllers: [
     HealthController,
-    VeiculoController,
     ServicoController,
     PecaController,
     OrdemServicoController,
