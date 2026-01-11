@@ -5,8 +5,8 @@ import { getTypeOrmConfig } from './infrastructure/database/typeorm.config';
 import { HealthController } from './presentation/controllers/health.controller';
 import { ClienteModule } from './presentation/modules/cliente.module';
 import { VeiculoModule } from './presentation/modules/veiculo.module';
-import { ServicoController } from './presentation/controllers/servico.controller';
-import { PecaController } from './presentation/controllers/peca.controller';
+import { ServicoModule } from './presentation/modules/servico.module';
+import { PecaModule } from './presentation/modules/peca.module';
 import { OrdemServicoController } from './presentation/controllers/ordem-servico.controller';
 
 @Module({
@@ -21,11 +21,11 @@ import { OrdemServicoController } from './presentation/controllers/ordem-servico
     }),
     ClienteModule,
     VeiculoModule,
+    ServicoModule,
+    PecaModule,
   ],
   controllers: [
     HealthController,
-    ServicoController,
-    PecaController,
     OrdemServicoController,
   ],
   providers: [],

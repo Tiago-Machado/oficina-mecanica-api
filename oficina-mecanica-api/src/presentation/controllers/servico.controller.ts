@@ -1,48 +1,41 @@
-import {
-  Controller,
-  Get,
-  Post,
-  Put,
-  Delete,
-  Body,
-  Param,
-  HttpCode,
-  HttpStatus,
-} from '@nestjs/common';
+import { Controller, Get, Post, Body } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { CreateServicoDto } from '../dtos/create-servico.dto';
-import { UpdateServicoDto } from '../dtos/update-servico.dto';
+import { CreateServicoUseCase } from '../../application/use-cases/create-servico.use-case';
+import { ListServicosUseCase } from '../../application/use-cases/list-servicos.use-case';
 
 @ApiTags('Serviços')
 @Controller('servicos')
 export class ServicoController {
+  constructor(
+    private readonly createServicoUseCase: CreateServicoUseCase,
+    private readonly listServicosUseCase: ListServicosUseCase,
+  ) {}
+
   @Post()
   @ApiOperation({ summary: 'Criar novo serviço' })
-  @ApiResponse({ status: 201, description: 'Serviço criado com sucesso' })
+  @ApiResponse({ status: 201, description: 'Serviço criado' })
   async create(@Body() createDto: CreateServicoDto) {
-    return { message: 'Serviço criado (mock)', data: createDto };
+    const servico = await this.createServicoUseCase.execute(createDto);
+    return {
+      id: servico.id,
+      descricao: servico.descricao,
+      valor: servico.valor.formatted,
+      tempoEstimadoMinutos: servico.tempoEstimadoMinutos,
+      ativo: servico.ativo,
+      criadoEm: servico.criadoEm,
+    };
   }
 
   @Get()
-  @ApiOperation({ summary: 'Listar todos os serviços' })
+  @ApiOperation({ summary: 'Listar serviços ativos' })
   async findAll() {
-    return { message: 'Lista de serviços (mock)', data: [] };
+    const servicos = await this.listServicosUseCase.execute();
+    return servicos.map((s) => ({
+      id: s.id,
+      descricao: s.descricao,
+      valor: s.valor.formatted,
+      tempoEstimadoMinutos: s.tempoEstimadoMinutos,
+    }));
   }
-
-  @Get(':id')
-  @ApiOperation({ summary: 'Buscar serviço por ID' })
-  async findOne(@Param('id') id: string) {
-    return { message: 'Serviço encontrado (mock)', data: { id } };
-  }
-
-  @Put(':id')
-  @ApiOperation({ summary: 'Atualizar serviço' })
-  async update(@Param('id') id: string, @Body() updateDto: UpdateServicoDto) {
-    return { message: 'Serviço atualizado (mock)', data: { id, ...updateDto } };
-  }
-
-  @Delete(':id')
-  @HttpCode(HttpStatus.NO_CONTENT)
-  @ApiOperation({ summary: 'Deletar serviço' })
-  async remove(@Param('id') id: string) {}
 }
