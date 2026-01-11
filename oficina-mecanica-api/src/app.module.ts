@@ -8,6 +8,7 @@ import { VeiculoModule } from './presentation/modules/veiculo.module';
 import { ServicoModule } from './presentation/modules/servico.module';
 import { PecaModule } from './presentation/modules/peca.module';
 import { OrdemServicoModule } from './presentation/modules/ordem-servico.module';
+import { AuthModule } from './presentation/modules/auth.module';
 
 @Module({
   imports: [
@@ -24,6 +25,7 @@ import { OrdemServicoModule } from './presentation/modules/ordem-servico.module'
     ServicoModule,
     PecaModule,
     OrdemServicoModule,
+    AuthModule,
   ],
   controllers: [HealthController],
   providers: [],

@@ -5,6 +5,7 @@ import { VeiculoOrmEntity } from './entities/veiculo.orm-entity';
 import { ServicoOrmEntity } from './entities/servico.orm-entity';
 import { PecaOrmEntity } from './entities/peca.orm-entity';
 import { OrdemServicoOrmEntity } from './entities/ordem-servico.orm-entity';
+import { UsuarioOrmEntity } from './entities/usuario.orm-entity';
 
 export const getTypeOrmConfig = (
   configService: ConfigService,
@@ -21,6 +22,7 @@ export const getTypeOrmConfig = (
     ServicoOrmEntity,
     PecaOrmEntity,
     OrdemServicoOrmEntity,
+    UsuarioOrmEntity,
   ],
   synchronize: configService.get('NODE_ENV') !== 'production',
   logging: configService.get('NODE_ENV') === 'development',
