@@ -7,7 +7,7 @@ import { ClienteModule } from './presentation/modules/cliente.module';
 import { VeiculoModule } from './presentation/modules/veiculo.module';
 import { ServicoModule } from './presentation/modules/servico.module';
 import { PecaModule } from './presentation/modules/peca.module';
-import { OrdemServicoController } from './presentation/controllers/ordem-servico.controller';
+import { OrdemServicoModule } from './presentation/modules/ordem-servico.module';
 
 @Module({
   imports: [
@@ -23,11 +23,9 @@ import { OrdemServicoController } from './presentation/controllers/ordem-servico
     VeiculoModule,
     ServicoModule,
     PecaModule,
+    OrdemServicoModule,
   ],
-  controllers: [
-    HealthController,
-    OrdemServicoController,
-  ],
+  controllers: [HealthController],
   providers: [],
 })
 export class AppModule {}

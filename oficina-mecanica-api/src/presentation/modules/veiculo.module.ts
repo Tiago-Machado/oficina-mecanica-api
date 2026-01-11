@@ -20,5 +20,6 @@ import { VeiculoController } from '../controllers/veiculo.controller';
     ListVeiculosUseCase,
     GetVeiculoUseCase,
   ],
+  exports: [VEICULO_REPOSITORY],
 })
 export class VeiculoModule {}

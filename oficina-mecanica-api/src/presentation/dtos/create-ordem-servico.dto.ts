@@ -1,4 +1,4 @@
-import { IsString, IsNotEmpty, IsUUID, IsArray, IsOptional, ValidateNested } from 'class-validator';
+import { IsString, IsNotEmpty, IsUUID, IsArray, IsOptional, ValidateNested, IsNumber, Min } from 'class-validator';
 import { Type } from 'class-transformer';
 import { ApiProperty } from '@nestjs/swagger';
 
@@ -12,9 +12,13 @@ class ItemServicoDto {
   descricao: string;
 
   @ApiProperty({ example: 150.00 })
+  @IsNumber()
+  @Min(0)
   valor: number;
 
   @ApiProperty({ example: 1 })
+  @IsNumber()
+  @Min(1)
   quantidade: number;
 }
 
@@ -28,9 +32,13 @@ class ItemPecaDto {
   descricao: string;
 
   @ApiProperty({ example: 45.90 })
+  @IsNumber()
+  @Min(0)
   valor: number;
 
   @ApiProperty({ example: 2 })
+  @IsNumber()
+  @Min(1)
   quantidade: number;
 }
 

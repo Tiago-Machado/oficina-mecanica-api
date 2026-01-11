@@ -4,14 +4,14 @@ import { Money } from '../value-objects/money.vo';
 export interface ItemServico {
   servicoId: string;
   descricao: string;
-  valor: Money;
+  valor: number;
   quantidade: number;
 }
 
 export interface ItemPeca {
   pecaId: string;
   descricao: string;
-  valor: Money;
+  valor: number;
   quantidade: number;
 }
 
@@ -31,20 +31,19 @@ export class OrdemServico {
 
   get valorTotal(): Money {
     const totalServicos = this.servicos.reduce(
-      (acc, item) => acc.add(item.valor.multiply(item.quantidade)),
-      new Money(0),
+      (acc, item) => acc + (item.valor * item.quantidade),
+      0,
     );
 
     const totalPecas = this.pecas.reduce(
-      (acc, item) => acc.add(item.valor.multiply(item.quantidade)),
-      new Money(0),
+      (acc, item) => acc + (item.valor * item.quantidade),
+      0,
     );
 
-    return totalServicos.add(totalPecas);
+    return new Money(totalServicos + totalPecas);
   }
 
   atualizarStatus(novoStatus: StatusOS): void {
-    // Validar transição de status (implementar depois)
     this.status = novoStatus;
     this.atualizadoEm = new Date();
   }
