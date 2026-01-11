@@ -3,6 +3,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { getTypeOrmConfig } from './infrastructure/database/typeorm.config';
 import { HealthController } from './presentation/controllers/health.controller';
+import { ClienteController } from './presentation/controllers/cliente.controller';
 
 @Module({
   imports: [
@@ -15,7 +16,7 @@ import { HealthController } from './presentation/controllers/health.controller';
         getTypeOrmConfig(configService),
     }),
   ],
-  controllers: [HealthController],
+  controllers: [HealthController, ClienteController],
   providers: [],
 })
 export class AppModule {}
