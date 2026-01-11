@@ -12,19 +12,34 @@ import {
 import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { CreateClienteDto } from '../dtos/create-cliente.dto';
 import { UpdateClienteDto } from '../dtos/update-cliente.dto';
+import { CreateClienteUseCase } from '../../application/use-cases/create-cliente.use-case';
+import { ListClientesUseCase } from '../../application/use-cases/list-clientes.use-case';
+import { GetClienteUseCase } from '../../application/use-cases/get-cliente.use-case';
 
 @ApiTags('Clientes')
 @Controller('clientes')
 export class ClienteController {
+  constructor(
+    private readonly createClienteUseCase: CreateClienteUseCase,
+    private readonly listClientesUseCase: ListClientesUseCase,
+    private readonly getClienteUseCase: GetClienteUseCase,
+  ) {}
+
   @Post()
   @ApiOperation({ summary: 'Criar novo cliente' })
   @ApiResponse({ status: 201, description: 'Cliente criado com sucesso' })
   @ApiResponse({ status: 400, description: 'Dados inválidos' })
+  @ApiResponse({ status: 409, description: 'CPF/CNPJ já cadastrado' })
   async create(@Body() createDto: CreateClienteDto) {
-    // TODO: Implementar use case
+    const cliente = await this.createClienteUseCase.execute(createDto);
     return {
-      message: 'Cliente criado (mock)',
-      data: createDto,
+      id: cliente.id,
+      cpfCnpj: cliente.cpfCnpj.formatado,
+      nome: cliente.nome,
+      email: cliente.email.value,
+      telefone: cliente.telefone,
+      endereco: cliente.endereco,
+      criadoEm: cliente.criadoEm,
     };
   }
 
@@ -32,10 +47,15 @@ export class ClienteController {
   @ApiOperation({ summary: 'Listar todos os clientes' })
   @ApiResponse({ status: 200, description: 'Lista de clientes' })
   async findAll() {
-    return {
-      message: 'Lista de clientes (mock)',
-      data: [],
-    };
+    const clientes = await this.listClientesUseCase.execute();
+    return clientes.map((c) => ({
+      id: c.id,
+      cpfCnpj: c.cpfCnpj.formatado,
+      nome: c.nome,
+      email: c.email.value,
+      telefone: c.telefone,
+      criadoEm: c.criadoEm,
+    }));
   }
 
   @Get(':id')
@@ -43,9 +63,16 @@ export class ClienteController {
   @ApiResponse({ status: 200, description: 'Cliente encontrado' })
   @ApiResponse({ status: 404, description: 'Cliente não encontrado' })
   async findOne(@Param('id') id: string) {
+    const cliente = await this.getClienteUseCase.execute(id);
     return {
-      message: 'Cliente encontrado (mock)',
-      data: { id },
+      id: cliente.id,
+      cpfCnpj: cliente.cpfCnpj.formatado,
+      nome: cliente.nome,
+      email: cliente.email.value,
+      telefone: cliente.telefone,
+      endereco: cliente.endereco,
+      criadoEm: cliente.criadoEm,
+      atualizadoEm: cliente.atualizadoEm,
     };
   }
 
@@ -55,7 +82,7 @@ export class ClienteController {
   @ApiResponse({ status: 404, description: 'Cliente não encontrado' })
   async update(@Param('id') id: string, @Body() updateDto: UpdateClienteDto) {
     return {
-      message: 'Cliente atualizado (mock)',
+      message: 'Cliente atualizado (TODO: implementar)',
       data: { id, ...updateDto },
     };
   }
@@ -66,6 +93,6 @@ export class ClienteController {
   @ApiResponse({ status: 204, description: 'Cliente deletado' })
   @ApiResponse({ status: 404, description: 'Cliente não encontrado' })
   async remove(@Param('id') id: string) {
-    // Retorna vazio (204)
+    // TODO: Implementar DeleteClienteUseCase
   }
 }

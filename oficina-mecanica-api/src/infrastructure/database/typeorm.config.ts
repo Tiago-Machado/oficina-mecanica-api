@@ -1,5 +1,10 @@
 import { TypeOrmModuleOptions } from '@nestjs/typeorm';
 import { ConfigService } from '@nestjs/config';
+import { ClienteOrmEntity } from './entities/cliente.orm-entity';
+import { VeiculoOrmEntity } from './entities/veiculo.orm-entity';
+import { ServicoOrmEntity } from './entities/servico.orm-entity';
+import { PecaOrmEntity } from './entities/peca.orm-entity';
+import { OrdemServicoOrmEntity } from './entities/ordem-servico.orm-entity';
 
 export const getTypeOrmConfig = (
   configService: ConfigService,
@@ -10,7 +15,13 @@ export const getTypeOrmConfig = (
   username: configService.get('DB_USERNAME', 'oficina'),
   password: configService.get('DB_PASSWORD', 'oficina123'),
   database: configService.get('DB_DATABASE', 'oficina_mecanica'),
-  entities: [__dirname + '/../**/*.entity{.ts,.js}'],
+  entities: [
+    ClienteOrmEntity,
+    VeiculoOrmEntity,
+    ServicoOrmEntity,
+    PecaOrmEntity,
+    OrdemServicoOrmEntity,
+  ],
   synchronize: configService.get('NODE_ENV') !== 'production',
   logging: configService.get('NODE_ENV') === 'development',
 });
