@@ -9,7 +9,7 @@ COPY tsconfig*.json ./
 COPY nest-cli.json ./
 
 # Instalar dependências
-RUN npm ci --only=production && npm cache clean --force
+RUN npm ci && npm cache clean --force
 
 # Copiar código fonte
 COPY src ./src
