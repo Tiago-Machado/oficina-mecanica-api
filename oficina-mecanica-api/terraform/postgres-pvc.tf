@@ -5,7 +5,8 @@ resource "kubernetes_persistent_volume_claim" "postgres" {
   }
 
   spec {
-    access_modes = ["ReadWriteOnce"]
+    access_modes       = ["ReadWriteOnce"]
+    storage_class_name = "standard"
     
     resources {
       requests = {
@@ -13,4 +14,6 @@ resource "kubernetes_persistent_volume_claim" "postgres" {
       }
     }
   }
+
+  wait_until_bound = false
 }

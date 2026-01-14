@@ -68,6 +68,12 @@ resource "kubernetes_deployment" "postgres" {
             mount_path = "/var/lib/postgresql/data"
           }
 
+          volume_mount {
+            name       = "init-script"
+            mount_path = "/docker-entrypoint-initdb.d"
+            read_only  = true
+          }
+
           resources {
             requests = {
               memory = "256Mi"
@@ -100,6 +106,13 @@ resource "kubernetes_deployment" "postgres" {
           name = "postgres-storage"
           persistent_volume_claim {
             claim_name = kubernetes_persistent_volume_claim.postgres.metadata[0].name
+          }
+        }
+
+        volume {
+          name = "init-script"
+          config_map {
+            name = kubernetes_config_map.init_db.metadata[0].name
           }
         }
       }
